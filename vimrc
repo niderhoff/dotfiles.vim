@@ -132,8 +132,14 @@ augroup vimrc_autocmds
     autocmd BufEnter * match OverLength /\%81v.\+/
 augroup END
 
-highlight ColorColumn ctermbg=blue
+" highlight 81st column in blue
+highlight ColorColumn ctermbg=grey
 set colorcolumn=81
+
+" show encoding+bomb in status line
+if has("statusline")
+    set statusline=%<%f\ %h%m%r%=%{\"[\".(&fenc==\"\"?&enc:&fenc).((exists(\"+bomb\")\ &&\ &bomb)?\",B\":\"\").\"]\ \"}%k\ %-14.(%l,%c%V%)\ %P
+endif
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " behaviour
