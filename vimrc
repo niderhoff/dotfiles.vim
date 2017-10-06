@@ -6,6 +6,9 @@
 "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+" Reset bug?
+filetype off
+
 syntax on
 
 " Enable file type detection.
@@ -146,11 +149,10 @@ set backspace=indent,eol,start
 set autoindent
 set smartindent
 set smarttab
-
 set shiftround
 
 " tabs
-autocmd FileType * set tabstop=4|set shiftwidth=4|set expandtab|set softtabstop=4
+autocmd BufEnter * set tabstop=4|set shiftwidth=4|set expandtab|set softtabstop=4
 " autocmd FileType tex set tabstop=2|set shiftwidth=2|set expandtab|set softtabstop=2
 
 " highlight search results
