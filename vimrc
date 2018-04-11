@@ -48,7 +48,6 @@ endif
 set background=dark
 " colorscheme hybrid
 
-
 let g:onedark_termcolors=256
 colorscheme onedark
 
