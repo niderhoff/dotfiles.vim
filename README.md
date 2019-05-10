@@ -11,3 +11,4 @@
     $ cd ~/.vim
     $ git submodule init
     $ git submodule update
+    $ git submodule --recursive git pull
