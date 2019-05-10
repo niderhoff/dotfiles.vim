@@ -6,8 +6,20 @@
 "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+" set runtimepath^=~/vimfiles
+
+"if has('win32') || has('win64')
+"    " Make windows use ~/.vim too, I don't want to use _vimfiles
+"    set runtimepath^=~/.vim
+"endif
+
 " Reset bug?
 filetype off
+
+execute pathogen#infect("~/.vim/bundle/base/{}")
+if has('gui_running')
+    execute pathogen#infect("~/.vim/bundle/gui/{}")
+endif
 
 syntax on
 
@@ -17,8 +29,6 @@ syntax on
 " Also load indent files, to automatically do language-dependent indenting.
 filetype plugin indent on
 
-" load pathogen + plugins
-execute pathogen#infect()
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " basic settings
@@ -48,6 +58,7 @@ endif
 set background=dark
 " colorscheme hybrid
 
+
 let g:onedark_termcolors=256
 colorscheme onedark
 
@@ -75,18 +86,32 @@ if (empty($TMUX))
     endif
 endif
 
+" fix some chars in windows terminal..(?)
+if !has("gui_running")
+    set rop=type:directx
+    set term=xterm
+    set mouse=a
+    set t_Co=256
+    let &t_AB="\e[48;5;%dm"
+    let &t_AF="\e[38;5;%dm"
+    inoremap <Char-0x07F> <BS>
+    nnoremap <Char-0x07F> <BS>
+endif
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " GUI settings
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 if has('gui_running')
-    set go-=m
-    set go-=T
-    set go-=L
-    set go-=r
+    set go=ge
+    set go-=m "menu bar
+    set go-=T "Tool bar
+    set go-=lL "left scroll
+    set go-=rR "right scroll
+
     set lines=60 columns=1308 linespace=0
     if has('gui_win32')
-        set guifont=Hack:h08
+        set guifont=Fira\ Code:h09
     endif
     let s:uname = system("uname")
     if s:uname == "Darwin\n"
@@ -131,14 +156,8 @@ augroup vimrc_autocmds
     autocmd BufEnter * match OverLength /\%81v.\+/
 augroup END
 
-" highlight 81st column in blue
-highlight ColorColumn ctermbg=grey
+highlight ColorColumn ctermbg=blue
 set colorcolumn=81
-
-" show encoding+bomb in status line
-if has("statusline")
-    set statusline=%<%f\ %h%m%r%=%{\"[\".(&fenc==\"\"?&enc:&fenc).((exists(\"+bomb\")\ &&\ &bomb)?\",B\":\"\").\"]\ \"}%k\ %-14.(%l,%c%V%)\ %P
-endif
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " behaviour
@@ -214,15 +233,17 @@ set nowb
 set noswapfile
 
 " stop vim from creating backup files all over the place
-if has("win32")
-    set backupdir=~/vimfiles/tmp
-    set directory=~/vimfiles/tmp
-else
-  if has("unix")
-    set backupdir=~/.vim/tmp
-    set directory=~/.vim/tmp
-  endif
-endif
+"if has("win32")
+"    set backupdir=~/vimfiles/tmp
+"    set directory=~/vimfiles/tmp
+"else
+"  if has("unix")
+"    set backupdir=~/.vim/tmp
+"    set directory=~/.vim/tmp
+"  endif
+"endif
+set backupdir=~/.vim/tmp
+set directory=~/.vim/tmp
 
 " keep 50 lines of command history
 set history=50
@@ -231,9 +252,12 @@ set history=50
 " movement + mapping
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-" enable mouse if it's working
-if has('mouse')
+" this enables mouse but we don't want that in terminal because it removes
+" right click pasting
+if has('gui_running')
     set mouse=a
+else
+    set mouse-=a
 endif
 
 " new mapleader
@@ -266,13 +290,17 @@ if !exists(":DiffOrig")
         \ | wincmd p | diffthis
 endif
 
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " plugins
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " plugin:nerdtree
 " automatically open NERDTree + switch to right pane
-" au VimEnter * NERDTree | wincmd p
+if has('gui_running')
+    au VimEnter * NERDTree | wincmd p
+endif
+
 " always show bookmakrs in tree
 let NERDTreeShowBookmarks=1
 " NERDTree hotkey
@@ -291,36 +319,12 @@ let g:indentLine_char = '|'
 
 " plugin:vim-airline
 " fix for: vim-airline doesn't appear until I create a new split
-if exists("g:airline_powerline_fonts")
-    let g:airline_powerline_fonts = 1
-endif
-
-" plugin:vim-r-plugin
-" let vimrplugin_applescript = 0
-" let vimplugin_vimpager = \"no"
-" let g:ScreenImpl = 'Tmux'
-" send selection to R
-" vmap <Space> <Plug>RDSendSelection
-" send line to R
-" nmap <Space> <Plug>RDSendLine
-" start R Plugin
-" map <F2> <Plug>RStart
-" imap <F2> <Plug>RStart
-" vmpa <F2> <Plug>Rstart
-
-" plugin:vim-latex
-" if has("unix") && match(system("uname"),'Darwin') != -1
-" let g:Tex_GotoError=0
-" let g:Tex_TreatMacViewerAsUNIX=1
-" let g:Tex_ExecuteUNIXViewerInForeground=1
-" let g:Tex_ViewRule_pdf = 'open -a Preview.app'
-" endif
-" let g:Tex_BibtexFlavor = 'biber'
+let g:airline_powerline_fonts = 1
+let g:airline_theme = "onedark"
 
 " plugin:vim-markdown
 " Disable vim instant markdown preview from autostarting
 let g:instant_markdown_autostart = 0
 " Disable folding in vim markdown plugin
 let g:vim_markdown_folding_disabled=1
-
 
