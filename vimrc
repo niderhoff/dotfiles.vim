@@ -295,16 +295,15 @@ endif
 " plugins
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+if has('gui_running')
 " plugin:nerdtree
 " automatically open NERDTree + switch to right pane
-if has('gui_running')
     au VimEnter * NERDTree | wincmd p
+    " always show bookmarks in tree
+    let NERDTreeShowBookmarks=1
+    " NERDTree hotkey
+    map <leader>& :NERDTreeToggle<CR>
 endif
-
-" always show bookmakrs in tree
-let NERDTreeShowBookmarks=1
-" NERDTree hotkey
-map <leader>& :NERDTreeToggle<CR>
 
 " plugin:indentLine
 let g:indentLine_enabled = 1
@@ -324,7 +323,7 @@ let g:airline_theme = "onedark"
 
 " plugin:vim-markdown
 " Disable vim instant markdown preview from autostarting
-let g:instant_markdown_autostart = 0
+" let g:instant_markdown_autostart = 0
 " Disable folding in vim markdown plugin
-let g:vim_markdown_folding_disabled=1
+" let g:vim_markdown_folding_disabled=1
 
