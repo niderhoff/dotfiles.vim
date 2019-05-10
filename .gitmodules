@@ -1,0 +1,21 @@
+[submodule "bundle/base/base16-vim"]
+	path = bundle/base/base16-vim
+	url = https://github.com/chriskempson/base16-vim
+[submodule "bundle/base/indentLine"]
+	path = bundle/base/indentLine
+	url = https://github.com/Yggdroot/indentLine
+[submodule "bundle/base/onedark.vim"]
+	path = bundle/base/onedark.vim
+	url = https://github.com/joshdick/onedark.vim
+[submodule "bundle/base/vim-airline"]
+	path = bundle/base/vim-airline
+	url = https://github.com/vim-airline/vim-airline
+[submodule "bundle/base/vim-airline-themes"]
+	path = bundle/base/vim-airline-themes
+	url = https://github.com/vim-airline/vim-airline-themes
+[submodule "bundle/gui/nerdtree"]
+	path = bundle/gui/nerdtree
+	url = https://github.com/scrooloose/nerdtree/
+[submodule "bundle/base/vim-gitgutter"]
+	path = bundle/base/vim-gitgutter
+	url = https://github.com/airblade/vim-gitgutter/
