@@ -1,18 +1,3 @@
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" My vimRC file
-"
-" Author: Nicolas Iderhoff
-" Last Change: 2017-10-05
-"
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-" set runtimepath^=~/vimfiles
-
-"if has('win32') || has('win64')
-"    " Make windows use ~/.vim too, I don't want to use _vimfiles
-"    set runtimepath^=~/.vim
-"endif
-
 " Reset bug?
 filetype off
 
@@ -24,11 +9,7 @@ endif
 syntax on
 
 " Enable file type detection.
-" Use the default filetype settings, so that mail gets 'tw' set to 72,
-" 'cindent' is on in C files, etc.
-" Also load indent files, to automatically do language-dependent indenting.
 filetype plugin indent on
-
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " basic settings
@@ -36,9 +17,6 @@ filetype plugin indent on
 
 " use vim settings rather than vi
 set nocompatible
-
-" combat slow vim start
-" set clipboard=exclude:.*
 
 " enable utf-8 if possible
 if has("multi_byte")
@@ -55,15 +33,8 @@ endif
 " colors
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-set background=dark
-" colorscheme hybrid
-
-
 let g:onedark_termcolors=256
 colorscheme onedark
-
-" let base16colorspace=256
-" colorscheme base16-ocean
 
 "Use 24-bit (true-color) mode in Vim/Neovim when outside tmux.
 "If you're using tmux version 2.2 or later, you can remove the outermost
@@ -134,10 +105,11 @@ set ruler
 
 " show linenumbers
 set number
-:highlight LineNr term=bold cterm=NONE ctermfg=DarkGrey ctermbg=NONE gui=NONE guifg=DarkGrey guibg=NONE
+":highlight LineNr term=bold cterm=NONE ctermfg=DarkGrey ctermbg=NONE gui=NONE guifg=DarkGrey guibg=NONE
+":hi CursorLine gui=underline cterm=underline
 
 " highlight current line
-set cursorline
+set cursorline 
 " show matching brackets when text indicator is over them
 set showmatch
 " always display status line
@@ -147,8 +119,8 @@ set showtabline=2
 set showcmd
 
 " show whitespace
-" set list
-" set listchars=tab:\|\
+set list
+set listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<
 
 " highlight everything that goes beyond 80 columns
 augroup vimrc_autocmds
@@ -261,17 +233,17 @@ else
 endif
 
 " new mapleader
-let mapleader=","
-let g:mapleader=","
+" let mapleader=","
+" let g:mapleader=","
 
 " on some keyboards this is faster than hitting Esc
-:imap ;; <Esc>
+" :imap ;; <Esc>
 
 " disable arrow keys so you get used to using proper hjkl
-noremap <Up> <Nop>
-noremap <Down> <Nop>
-noremap <Left> <Nop>
-noremap <Right> <Nop>
+" noremap <Up> <Nop>
+" noremap <Down> <Nop>
+" noremap <Left> <Nop>
+" noremap <Right> <Nop>
 
 " do not use ex mode, use q for formatting
 map Q gq
@@ -289,7 +261,6 @@ if !exists(":DiffOrig")
     command DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis
         \ | wincmd p | diffthis
 endif
-
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " plugins
@@ -313,7 +284,7 @@ let g:indentLine_color_term = 19
 let g:indentLine_color_tty_light = 7
 let g:indentLine_color_dark = 1
 let g:indentLine_leadingSpaceEnabled = 1
-let g:indentLine_leadingSpaceChar = '·'
+"let g:indentLine_leadingSpaceChar = '·'
 let g:indentLine_char = '|'
 
 " plugin:vim-airline
