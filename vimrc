@@ -1,10 +1,42 @@
 " Reset bug?
 filetype off
+set nocompatible
 
-execute pathogen#infect("~/.vim/bundle/base/{}")
-if has('gui_running')
-    execute pathogen#infect("~/.vim/bundle/gui/{}")
-endif
+let $PATH .= ':/c/msys64/usr/bin'
+
+" Vundle
+" set rtp+=~/.vim/bundle/Vundle.vim
+
+"execute vundle#begin()
+"Plugin 'vundleVim/Vundle.vim'
+"Plugin 'tpope/vim-fugitive'
+"Plugin 'Yggdroot/indentLine'
+"Plugin 'joshdick/onedark.vim'
+"Plugin 'jnurmine/zenburn'
+"Plugin 'sonph/onehalf', {'rtp':'vim/'}
+"Plugin 'vim-airline/vim-airline'
+"Plugin 'vim-airline/vim-airline-themes'
+"Plugin 'ryanoasis/vim-devicons'
+"Plugin 'airblade/vim-gitgutter'
+"Plugin 'preservim/nerdtree'
+"Plugin 'Xuyuanp/nerdtree-git-plugin'
+"Plugin 'kien/ctrlp.vim'
+"call vundle#end()
+
+" vim-plug
+call plug#begin('~/.vim/plugged')
+Plug 'tpope/vim-fugitive'
+Plug 'Yggdroot/indentLine'
+Plug 'joshdick/onedark.vim'
+"Plug 'jnurmine/zenburn'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+"Plug 'ryanoasis/vim-devicons'
+Plug 'airblade/vim-gitgutter'
+Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+call plug#end()
 
 syntax on
 
@@ -14,9 +46,6 @@ filetype plugin indent on
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " basic settings
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-" use vim settings rather than vi
-set nocompatible
 
 " enable utf-8 if possible
 if has("multi_byte")
@@ -35,6 +64,8 @@ endif
 
 let g:onedark_termcolors=256
 colorscheme onedark
+"colorscheme zenburn
+"colorscheme onehalfdark
 
 "Use 24-bit (true-color) mode in Vim/Neovim when outside tmux.
 "If you're using tmux version 2.2 or later, you can remove the outermost
@@ -59,7 +90,7 @@ endif
 
 " fix some chars in windows terminal..(?)
 if !has("gui_running")
-    set rop=type:directx
+"    set rop=type:directx
     set term=xterm
     set mouse=a
     set t_Co=256
@@ -74,6 +105,7 @@ endif
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 if has('gui_running')
+    set mouse=a
     set go=ge
     set go-=m "menu bar
     set go-=T "Tool bar
@@ -82,7 +114,7 @@ if has('gui_running')
 
     set lines=60 columns=1308 linespace=0
     if has('gui_win32')
-        set guifont=Fira\ Code:h09
+        set guifont=Consolas\ NF:h10
     endif
     let s:uname = system("uname")
     if s:uname == "Darwin\n"
@@ -120,7 +152,7 @@ set showcmd
 
 " show whitespace
 set list
-set listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<
+set listchars=tab:>·,trail:~,extends:>,precedes:<
 
 " highlight everything that goes beyond 80 columns
 augroup vimrc_autocmds
@@ -128,8 +160,8 @@ augroup vimrc_autocmds
     autocmd BufEnter * match OverLength /\%81v.\+/
 augroup END
 
-highlight ColorColumn ctermbg=blue
-set colorcolumn=81
+" highlight ColorColumn ctermbg=blue
+" set colorcolumn=81
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " behaviour
@@ -224,17 +256,9 @@ set history=50
 " movement + mapping
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-" this enables mouse but we don't want that in terminal because it removes
-" right click pasting
-if has('gui_running')
-    set mouse=a
-else
-    set mouse-=a
-endif
-
 " new mapleader
-" let mapleader=","
-" let g:mapleader=","
+let mapleader=","
+let g:mapleader=","
 
 " on some keyboards this is faster than hitting Esc
 " :imap ;; <Esc>
@@ -252,6 +276,8 @@ map Q gq
 " so that you can undo ctrl-U after inserting a line break
 inoremap <C-U> <C-G>u<C-U>
 
+map <C-V> <S-V>
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " custom commands
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -265,16 +291,21 @@ endif
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " plugins
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" plugin:nerdtree
 
 if has('gui_running')
-" plugin:nerdtree
-" automatically open NERDTree + switch to right pane
+    " automatically open NERDTree + switch to right pane
     au VimEnter * NERDTree | wincmd p
-    " always show bookmarks in tree
-    let NERDTreeShowBookmarks=1
-    " NERDTree hotkey
-    map <leader>& :NERDTreeToggle<CR>
 endif
+
+let g:NERDTreeShowIgnoredStatus = 0
+let g:NERDTreeCascadeOpenSingleChildDir = 1
+
+" always show bookmarks in tree
+let NERDTreeShowBookmarks=1
+" NERDTree hotkey
+map <leader>ne :NERDTreeToggle<CR>
+map <leader>f :NERDTreeFind<CR>
 
 " plugin:indentLine
 let g:indentLine_enabled = 1
@@ -287,10 +318,17 @@ let g:indentLine_leadingSpaceEnabled = 1
 "let g:indentLine_leadingSpaceChar = '·'
 let g:indentLine_char = '|'
 
+let s:unamesub = split(system("uname"), "_")[0]
+"if s:unamesub == "MINGW64" || s:unamesub == "CYGWIN"
+"    let g:indentLine_leadingSpaceChar = "."
+"endif
+
 " plugin:vim-airline
 " fix for: vim-airline doesn't appear until I create a new split
 let g:airline_powerline_fonts = 1
 let g:airline_theme = "onedark"
+"let g:airline_theme = "zenburn"
+"let g:airline_theme = "onehalfdark"
 
 " plugin:vim-markdown
 " Disable vim instant markdown preview from autostarting
