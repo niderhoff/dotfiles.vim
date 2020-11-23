@@ -4,25 +4,6 @@ set nocompatible
 
 let $PATH .= ':/c/msys64/usr/bin'
 
-" Vundle
-" set rtp+=~/.vim/bundle/Vundle.vim
-
-"execute vundle#begin()
-"Plugin 'vundleVim/Vundle.vim'
-"Plugin 'tpope/vim-fugitive'
-"Plugin 'Yggdroot/indentLine'
-"Plugin 'joshdick/onedark.vim'
-"Plugin 'jnurmine/zenburn'
-"Plugin 'sonph/onehalf', {'rtp':'vim/'}
-"Plugin 'vim-airline/vim-airline'
-"Plugin 'vim-airline/vim-airline-themes'
-"Plugin 'ryanoasis/vim-devicons'
-"Plugin 'airblade/vim-gitgutter'
-"Plugin 'preservim/nerdtree'
-"Plugin 'Xuyuanp/nerdtree-git-plugin'
-"Plugin 'kien/ctrlp.vim'
-"call vundle#end()
-
 " vim-plug
 call plug#begin('~/.vim/plugged')
 Plug 'tpope/vim-fugitive'
@@ -35,7 +16,7 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'airblade/vim-gitgutter'
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'Xuyuanp/nerdtree-git-plugin'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'jkramer/vim-checkbox'
 call plug#end()
 
 syntax on
@@ -162,6 +143,8 @@ augroup END
 
 " highlight ColorColumn ctermbg=blue
 " set colorcolumn=81
+
+set vb t_vb=
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " behaviour
@@ -315,7 +298,7 @@ let g:indentLine_color_term = 19
 let g:indentLine_color_tty_light = 7
 let g:indentLine_color_dark = 1
 let g:indentLine_leadingSpaceEnabled = 1
-"let g:indentLine_leadingSpaceChar = '·'
+let g:indentLine_leadingSpaceChar = '·'
 let g:indentLine_char = '|'
 
 let s:unamesub = split(system("uname"), "_")[0]
